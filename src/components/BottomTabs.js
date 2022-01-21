@@ -36,6 +36,7 @@ const BottomTabs = ({skipFromLibrary}) => {
         },
       }}
       shifting={true}>
+        
       <Tab.Screen
         name="Müzik Çalar"
         children={() => <MusicPlayer songIndexFromList={skipIndex} />}

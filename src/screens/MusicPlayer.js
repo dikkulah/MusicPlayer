@@ -41,7 +41,7 @@ const togglePlayback = async playBackState => {
   }
 };
 
-const MusicPlayer = (props) => {
+const MusicPlayer = props => {
   const playBackState = usePlaybackState();
   const progressSong = useProgress();
   const [songIndex, setsongIndex] = useState(0);
@@ -60,31 +60,32 @@ const MusicPlayer = (props) => {
     settrackArtwork(artwork);
   });
 
-  const skipToNext = () => async trackId => {
+  const skipToNext =  async trackId => {
     await TrackPlayer.skipToNext(trackId);
   };
-  
-  const skipFromListFunc = (trackId) => async trackId => {
-    await TrackPlayer.skip(trackId);
- };
 
- 
-  const skipToPrevious = () => async trackId => {
+  const skipFromListFunc =  async trackId => {
+    try {
+      await TrackPlayer.skip(trackId);
+      await TrackPlayer.play();
+    } catch (error) {
+      console.log(error);
+    }
+    
+  };
+
+  const skipToPrevious = async trackId => {
     await TrackPlayer.skipToPrevious(trackId);
+    
   };
 
   useEffect(() => {
     setUpPlayer();
     setsongIndex(songIndex);
-    
   }, []);
 
-  
   useEffect(() => {
-    
-    skipFromListFunc(props.songIndexFromList)
-    //console.log(props.songIndexFromList-1);
-
+    skipFromListFunc(props.songIndexFromList);
   }, [props.songIndexFromList]);
 
   ///TASARIM
@@ -113,8 +114,8 @@ const MusicPlayer = (props) => {
         <ButtonComponent
           isPlay={playBackState}
           toggle={() => togglePlayback(playBackState)}
-          next={skipToNext(songIndex)}
-          previous={skipToPrevious(songIndex)}
+          next={() =>skipToNext(songIndex)}
+          previous={ () =>skipToPrevious(songIndex)}
         />
       </View>
     </SafeAreaView>
