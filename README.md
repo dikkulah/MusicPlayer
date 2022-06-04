@@ -1,1 +1,1 @@
-# Mobil Uygulama Geliştirme 1 - proje ödevi
+# Mobil Uygulama Geliştirme 1 - Proje Ödevi
